@@ -52,18 +52,18 @@ class Player(GameSprite):
             self.rect.x += self.speed
         if keys_pressed[K_UP] and bg_speed<max_speed:
             bg_speed = bg_speed+0.5 
-        if keys_pressed[K_DOWN] and self.rect.y < HEIGHT - 70:
-            bg_speed = bg_speed-3
+        #if keys_pressed[K_DOWN] and self.rect.y < HEIGHT - 70:
+            #bg_speed = bg_speed-3
 
     
-    class Enemy(GameSprite):
-        def update(self):
-            if self.rect.y < HEIGHT:
-                self.rect.y+=self.speed
-            else:
-                self.rect.y = randint(-500, -100)
-                self.rect.x = randint(0, WIDTH-70)
-                self.speed = randint(3, 5)
+class Enemy(GameSprite):
+    def update(self):
+        if self.rect.y < HEIGHT:
+            self.rect.y+=self.speed
+        else:
+            self.rect.y = randint(-500, -100)
+            self.rect.x = randint(0, WIDTH-70)
+            self.speed = randint(3, 6)
 
         
 class Text(sprite.Sprite):
@@ -82,6 +82,7 @@ class Text(sprite.Sprite):
         self.image = self.font.render(new_text, True, self.color)
 
 
+
 # створення вікна
 window = display.set_mode((WIDTH, HEIGHT))
 display.set_caption("CAR RACES")
@@ -96,8 +97,8 @@ bg = transform.scale(bg1, (WIDTH, HEIGHT))
 
 # створення спрайтів
 player = Player(player_image, width = 100, height = 200, x = 500, y = 500)
-enemy1 = GameSprite(enemy1_image, width = 100, height = 200, x = 700, y = 200)
-enemy2 = GameSprite(enemy2_image, width = 100, height = 200, x = 400, y = 100)
+enemy = Enemy(enemy1_image, width = 100, height = 200, x = 700, y = 200)
+#enemy2 = GameSprite(enemy2_image, width = 100, height = 200, x = 400, y = 100)
 # основні змінні для гри
 run = True
 finish = False
@@ -105,7 +106,14 @@ clock = time.Clock()
 FPS = 60
 score = 0
 lost = 0
+enemyies = sprite.Group()
 
+
+for i in range(3):
+    rand_y = randint(-500, -100)
+    rand_x = randint(200,1000)
+    rand_speed = randint(3, 5)
+    enemyies.add(Enemy(enemy1_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed))
 # ігровий цикл
 while run:
     # перевірка подій
@@ -125,8 +133,9 @@ while run:
         if bg_speed > 7:
             bg_speed -= 0.10
         player.draw()
-        #enemy1.draw()
+        enemyies.draw(window)
         #enemy2.draw()
         player.update() #рух гравця
+        enemyies.update() #ру
     display.update()
     clock.tick(FPS)
