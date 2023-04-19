@@ -62,7 +62,7 @@ class Enemy(GameSprite):
             self.rect.y+=self.speed
         else:
             self.rect.y = randint(-500, -100)
-            self.rect.x = randint(0, WIDTH-70)
+            self.rect.x = randint(200, 1000)
             self.speed = randint(3, 6)
 
         
@@ -98,6 +98,7 @@ bg = transform.scale(bg1, (WIDTH, HEIGHT))
 # створення спрайтів
 player = Player(player_image, width = 100, height = 200, x = 500, y = 500)
 enemy = Enemy(enemy1_image, width = 100, height = 200, x = 700, y = 200)
+enemy2 = Enemy(enemy2_image, width = 100, height = 200, x = 700, y = 200)
 #enemy2 = GameSprite(enemy2_image, width = 100, height = 200, x = 400, y = 100)
 # основні змінні для гри
 run = True
@@ -109,11 +110,12 @@ lost = 0
 enemyies = sprite.Group()
 
 
-for i in range(3):
+for i in range(1):
     rand_y = randint(-500, -100)
-    rand_x = randint(200,1000)
+    rand_x = randint(200, 1000)
     rand_speed = randint(3, 5)
     enemyies.add(Enemy(enemy1_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed))
+    enemyies.add(Enemy(enemy2_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed))
 # ігровий цикл
 while run:
     # перевірка подій
@@ -137,5 +139,8 @@ while run:
         #enemy2.draw()
         player.update() #рух гравця
         enemyies.update() #ру
+        spritelist = sprite.spritecollide(player, enemyies, False, sprite.collide_mask)
+        for collide in spritelist:
+            finish = True
     display.update()
     clock.tick(FPS)
