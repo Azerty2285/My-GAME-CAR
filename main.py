@@ -21,13 +21,17 @@ bg_speed = 4
 player_image = image.load("IMAGES/carplayer1234.png")
 enemy1_image = image.load("IMAGES/car123.png")
 enemy2_image = image.load("IMAGES/car12345.png")
+enemy3_image = image.load("IMAGES/car1235678.png")
 #enemy_image = image.load("")
 
 # фонова музика
-#mixer.music.load('musictheme.ogg')
+#mixer.music.load('musictheme.ogg')   
 #mixer.music.set_volume(0.2)
 #mixer.music.play(-1)
 # класи
+
+
+
 class GameSprite(sprite.Sprite):
     def __init__(self, sprite_img, width, height, x, y, speed = 4):
         super().__init__()
@@ -65,6 +69,21 @@ class Enemy(GameSprite):
             self.rect.x = randint(200, 1000)
             self.speed = randint(3, 6)
 
+    def get_random_pos(self):
+        rand_num = randint(1, 4)
+        if rand_num == 1:
+            self.rect.x = 200
+            self.rect.y = -150
+        if rand_num == 2:
+            self.rect.x = 280
+            self.rect.y = -150
+        if rand_num == 3:
+            self.rect.x = 500
+            self.rect.y = -150
+        if rand_num == 4:
+            self.rect.x = 650
+            self.rect.y = -150
+
         
 class Text(sprite.Sprite):
     def __init__(self, text, x, y, font_size=22, font_name="Impact", color=(255,255,255)):
@@ -90,7 +109,7 @@ display.set_caption("CAR RACES")
 # написи для лічильників очок
 score_text = Text("Рахунок: 0", 20, 50)
 # напис з результатом гри 
-result_text = Text("Перемога!", 350, 250, font_size = 50)
+result_text = Text("LOSE!", 350, 250, font_size = 50)
 
 #додавання фону
 bg = transform.scale(bg1, (WIDTH, HEIGHT))
@@ -99,6 +118,7 @@ bg = transform.scale(bg1, (WIDTH, HEIGHT))
 player = Player(player_image, width = 100, height = 200, x = 500, y = 500)
 enemy = Enemy(enemy1_image, width = 100, height = 200, x = 700, y = 200)
 enemy2 = Enemy(enemy2_image, width = 100, height = 200, x = 700, y = 200)
+enemy3 = Enemy(enemy3_image, width = 100, height = 200, x = 700, y = 200)
 #enemy2 = GameSprite(enemy2_image, width = 100, height = 200, x = 400, y = 100)
 # основні змінні для гри
 run = True
@@ -114,8 +134,13 @@ for i in range(1):
     rand_y = randint(-500, -100)
     rand_x = randint(200, 1000)
     rand_speed = randint(3, 5)
-    enemyies.add(Enemy(enemy1_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed))
-    enemyies.add(Enemy(enemy2_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed))
+    enemy1= Enemy(enemy1_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed)
+    enemy1.get_random_pos()
+    enemy2= Enemy(enemy2_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed)
+    enemy2.get_random_pos()
+    enemy3= Enemy(enemy3_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed)
+    enemy3.get_random_pos()
+    enemyies.add(enemy1, enemy2, enemy3)    
 # ігровий цикл
 while run:
     # перевірка подій
@@ -133,7 +158,7 @@ while run:
         if bg2_y > 700:
             bg2_y = -700
         if bg_speed > 7:
-            bg_speed -= 0.10
+            bg_speed -= 0.1
         player.draw()
         enemyies.draw(window)
         #enemy2.draw()
@@ -141,6 +166,7 @@ while run:
         enemyies.update() #ру
         spritelist = sprite.spritecollide(player, enemyies, False, sprite.collide_mask)
         for collide in spritelist:
+            result_text.set_text("LOSE!!!")
             finish = True
     display.update()
     clock.tick(FPS)
