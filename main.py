@@ -65,25 +65,24 @@ class Enemy(GameSprite):
         if self.rect.y < HEIGHT:
             self.rect.y+=self.speed
         else:
-            self.rect.y = randint(-500, -100)
-            self.rect.x = randint(200, 1000)
-            self.speed = randint(3, 6)
+            self.get_random_pos()
 
     def get_random_pos(self):
         rand_num = randint(1, 4)
         if rand_num == 1:
-            self.rect.x = 200
-            self.rect.y = -150
-        if rand_num == 2:
             self.rect.x = 280
-            self.rect.y = -150
+            self.rect.y = -250
+        if rand_num == 2:
+            self.rect.x = 445
+            self.rect.y = -350
         if rand_num == 3:
-            self.rect.x = 500
-            self.rect.y = -150
+            self.rect.x = 630
+            self.rect.y = -450
         if rand_num == 4:
-            self.rect.x = 650
+            self.rect.x = 805
             self.rect.y = -150
-
+#445
+#280
         
 class Text(sprite.Sprite):
     def __init__(self, text, x, y, font_size=22, font_name="Impact", color=(255,255,255)):
@@ -116,9 +115,6 @@ bg = transform.scale(bg1, (WIDTH, HEIGHT))
 
 # створення спрайтів
 player = Player(player_image, width = 100, height = 200, x = 500, y = 500)
-enemy = Enemy(enemy1_image, width = 100, height = 200, x = 700, y = 200)
-enemy2 = Enemy(enemy2_image, width = 100, height = 200, x = 700, y = 200)
-enemy3 = Enemy(enemy3_image, width = 100, height = 200, x = 700, y = 200)
 #enemy2 = GameSprite(enemy2_image, width = 100, height = 200, x = 400, y = 100)
 # основні змінні для гри
 run = True
