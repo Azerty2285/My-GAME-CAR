@@ -8,14 +8,14 @@ mixer.init()
 
 # розміри вікна
 WIDTH, HEIGHT = 1200, 700
-
+total_time = 30
 # картинка фону
 bg1 = transform.scale(image.load("IMAGES/background2.jpg"), (WIDTH, HEIGHT))
 bg2 = transform.scale(image.load("IMAGES/background2.jpg"), (WIDTH, HEIGHT))
 
 bg1_y =0
 bg2_y =-700
-max_speed = 20
+max_speed = 30
 bg_speed = 4
 #картинки для спрайтів
 player_image = image.load("IMAGES/carplayer1234.png")
@@ -55,7 +55,7 @@ class Player(GameSprite):
         if keys_pressed[K_RIGHT] and self.rect.x < WIDTH - 70:
             self.rect.x += self.speed
         if keys_pressed[K_UP] and bg_speed<max_speed:
-            bg_speed = bg_speed+0.5 
+            bg_speed = bg_speed+0.3
         #if keys_pressed[K_DOWN] and self.rect.y < HEIGHT - 70:
             #bg_speed = bg_speed-3
 
@@ -138,13 +138,24 @@ for i in range(1):
     enemy3.get_random_pos()
     enemyies.add(enemy1, enemy2, enemy3)    
 # ігровий цикл
+
+time_text = Text("Time:", WIDTH - 150, 25, font_size = 40)
+distance_text = Text("Distance:", WIDTH-250, 80, font_size = 40)
+distance = 10000
 while run:
     # перевірка подій
     for e in event.get():
         if e.type == QUIT:
             run = False
-    if not finish: # поки гра триває
+    if not finish:
+         # поки гра триває
         # рух спрайтів
+        now = time.get_ticks()/1000
+        time_left = int(total_time - now)
+        time_text.set_text("Time:" + str(time_left))
+        distance_text.set_text("Distance: " + str(distance))
+        if time_left <= 0:
+            finish = True
         window.blit(bg, (0, bg1_y))
         window.blit(bg2, (0, bg2_y))
         bg1_y +=bg_speed
@@ -156,10 +167,16 @@ while run:
         if bg_speed > 7:
             bg_speed -= 0.1
         player.draw()
+        time_text.draw()  
         enemyies.draw(window)
         #enemy2.draw()
         player.update() #рух гравця
         enemyies.update() #ру
+        distance -= int(bg_speed*0.50)
+        distance_text.draw()  
+        if distance == 0:
+            finish = True
+        print(distance)
         spritelist = sprite.spritecollide(player, enemyies, False, sprite.collide_mask)
         for collide in spritelist:
             result_text.set_text("LOSE!!!")
