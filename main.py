@@ -29,7 +29,7 @@ enemy3_image = image.load("IMAGES/car1235678.png")
 #mixer.music.set_volume(0.2)
 #mixer.music.play(-1)
 # класи
-
+time
 
 
 class GameSprite(sprite.Sprite):
@@ -71,13 +71,13 @@ class Enemy(GameSprite):
         rand_num = randint(1, 4)
         if rand_num == 1:
             self.rect.x = 280
-            self.rect.y = -250
+            self.rect.y = -300
         if rand_num == 2:
             self.rect.x = 445
-            self.rect.y = -350
+            self.rect.y = -400
         if rand_num == 3:
             self.rect.x = 630
-            self.rect.y = -450
+            self.rect.y = -500
         if rand_num == 4:
             self.rect.x = 805
             self.rect.y = -150
