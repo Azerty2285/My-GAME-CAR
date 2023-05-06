@@ -74,16 +74,20 @@ class Enemy(GameSprite):
             self.rect.y = -300
         if rand_num == 2:
             self.rect.x = 445
-            self.rect.y = -400
+            self.rect.y = -500
         if rand_num == 3:
             self.rect.x = 630
-            self.rect.y = -500
+            self.rect.y = -700
         if rand_num == 4:
             self.rect.x = 805
             self.rect.y = -150
-#445
-#280
+        collide_list = sprite.spritecollide(self, enemyies, False)
+        for collide in collide_list:
+            if collide!= self:
+                self.get_random_pos()
+
         
+
 class Text(sprite.Sprite):
     def __init__(self, text, x, y, font_size=22, font_name="Impact", color=(255,255,255)):
         self.font = font.SysFont(font_name, font_size)
@@ -172,11 +176,10 @@ while run:
         #enemy2.draw()
         player.update() #рух гравця
         enemyies.update() #ру
-        distance -= int(bg_speed*0.50)
+        distance -= int(bg_speed*0.40)
         distance_text.draw()  
-        if distance == 0:
+        if distance <= 0:
             finish = True
-        print(distance)
         spritelist = sprite.spritecollide(player, enemyies, False, sprite.collide_mask)
         for collide in spritelist:
             result_text.set_text("LOSE!!!")
