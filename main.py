@@ -96,7 +96,7 @@ class Tree(GameSprite):
         if self.rect.y < HEIGHT:
             self.rect.y+=self.speed
         else:
-            self.get_random_pos1()
+            self.kill()
 
 
 
@@ -114,7 +114,7 @@ class Tree(GameSprite):
         if rand_num == 4:
             self.rect.x = 805
             self.rect.y = -150
-        collide_list = sprite.spritecollide(self, trees, False)
+        collide_list = sprite.spritecollide(self, enemyies, False)
         for collide in collide_list:
             if collide!= self:
                 self.get_random_pos1()
@@ -175,12 +175,7 @@ for i in range(1):
     enemy3.get_random_pos()
     enemyies.add(enemy1, enemy2, enemy3)    
 
-for i in range(1):
-    rand_y = randint(-500, -100)
-    rand_x = randint(200, 1000)
-    rand_speed = randint(3, 5)
-    tree= Tree(tree_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed)
-    tree.get_random_pos1() 
+
 # ігровий цикл
 
 time_text = Text("Time:", WIDTH - 150, 25, font_size = 40)
@@ -210,7 +205,15 @@ while run:
             bg2_y = -700
         if bg_speed > 7:
             bg_speed -= 0.1
-       
+
+        if randint(0, 400) == 100:
+            rand_y = randint(-500, -100)
+            rand_x = randint(200, 1000)
+            rand_speed = randint(3, 5)
+            tree = Tree(tree_image, width=100, height = 200, y = rand_y, x = rand_x, speed = rand_speed)
+            tree.get_random_pos1()
+            trees.add(tree)
+
         player.update() #рух гравця
         enemyies.update() #ру
         trees.update()
@@ -224,10 +227,16 @@ while run:
             #explosions.add(Explosion(collide.rect.x, collide.rect.y, images_list))
             result_text.set_text("LOSE!!!")
             finish = True 
+
+        spritelist = sprite.spritecollide(player, trees, False, sprite.collide_mask)   
+        for collide in spritelist:
+            #explosions.add(Explosion(collide.rect.x, collide.rect.y, images_list))
+            result_text.set_text("LOSE!!!")
+            finish = True
     window.blit(bg, (0, bg1_y))
     window.blit(bg2, (0, bg2_y))
     player.draw()
-    trees.draw()
+    trees.draw(window)
     time_text.draw()  
     enemyies.draw(window)
     distance_text.draw()  
