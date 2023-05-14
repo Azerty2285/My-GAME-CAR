@@ -5,6 +5,10 @@ import os
 init()
 font.init()
 mixer.init()
+mixer.music.load("SOUND\music321.mp3")
+mixer.music.set_volume(1000)
+mixer.music.play(loops=-1)
+
 
 # розміри вікна
 WIDTH, HEIGHT = 1200, 700
@@ -12,6 +16,7 @@ total_time = 30
 # картинка фону
 bg1 = transform.scale(image.load("IMAGES/background2.jpg"), (WIDTH, HEIGHT))
 bg2 = transform.scale(image.load("IMAGES/background2.jpg"), (WIDTH, HEIGHT))
+
 
 bg1_y =0
 bg2_y =-700
@@ -22,7 +27,8 @@ player_image = image.load("IMAGES/carplayer1234.png")
 enemy1_image = image.load("IMAGES/car123.png")
 enemy2_image = image.load("IMAGES/car12345.png")
 enemy3_image = image.load("IMAGES/car1235678.png")
-tree_image = image.load("IMAGES/tree.png")
+stop_image = image.load("IMAGES/stop.png")
+pills_image = image.load("IMAGES/pills.png")
 #enemy_image = image.load("")
 
 # фонова музика
@@ -91,17 +97,22 @@ class Enemy(GameSprite):
             if collide!= self:
                 self.get_random_pos()
 
-class Tree(GameSprite):
+class Tree(Enemy):
     def update(self):
         if self.rect.y < HEIGHT:
             self.rect.y+=self.speed
         else:
             self.kill()
 
-
+class Pill(Enemy):
+    def update(self):
+        if self.rect.y < HEIGHT:
+            self.rect.y+=self.speed
+        else:
+            self.kill()
 
     def get_random_pos1(self):
-        rand_num = randint(1, 15)
+        rand_num = randint(1, 4)
         if rand_num == 1:
             self.rect.x = 280
             self.rect.y = -300
@@ -151,7 +162,8 @@ bg = transform.scale(bg1, (WIDTH, HEIGHT))
 
 # створення спрайтів
 player = Player(player_image, width = 100, height = 200, x = 500, y = 500)
-tree = GameSprite(tree_image, width = 100, height = 200, x = 400, y = 100)
+tree = GameSprite(stop_image, width = 100, height = 200, x = 400, y = 100)
+pill = GameSprite(pills_image, width =100, height=200, x = 400, y =  200)
 #enemy2 = GameSprite(enemy2_image, width = 100, height = 200, x = 400, y = 100)
 # основні змінні для гри
 run = True
@@ -181,6 +193,7 @@ for i in range(1):
 time_text = Text("Time:", WIDTH - 150, 25, font_size = 40)
 distance_text = Text("Distance:", WIDTH-250, 80, font_size = 40)
 distance = 10000
+pills = sprite.Group()
 while run:
     # перевірка подій
     for e in event.get():
@@ -209,10 +222,18 @@ while run:
         if randint(0, 400) == 100:
             rand_y = randint(-500, -100)
             rand_x = randint(200, 1000)
-            rand_speed = randint(3, 5)
-            tree = Tree(tree_image, width=100, height = 200, y = rand_y, x = rand_x, speed = rand_speed)
-            tree.get_random_pos1()
+            #rand_speed = randint(3, 5)
+            tree = Tree(stop_image, width=150, height = 100, y = rand_y, x = rand_x, speed = rand_speed)
+            tree.get_random_pos()
             trees.add(tree)
+        
+        if randint(0, 1) == 1:
+            rand_y = randint(-500, -100)
+            rand_x = randint(200, 1000)
+            #rand_speed = randint(3, 5)
+            pill = Pill(pills_image, width=150, height = 100, y = rand_y, x = rand_x, speed = rand_speed)
+            pill.get_random_pos()    
+            pills.add(pill)
 
         player.update() #рух гравця
         enemyies.update() #ру
@@ -233,10 +254,16 @@ while run:
             #explosions.add(Explosion(collide.rect.x, collide.rect.y, images_list))
             result_text.set_text("LOSE!!!")
             finish = True
+
+        spritelist = sprite.spritecollide(player, pills, True, sprite.collide_mask)   
+        for collide in spritelist:
+            bg_speed = bg_speed + 3
+
     window.blit(bg, (0, bg1_y))
     window.blit(bg2, (0, bg2_y))
     player.draw()
     trees.draw(window)
+    pills.draw(window)
     time_text.draw()  
     enemyies.draw(window)
     distance_text.draw()  
