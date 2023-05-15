@@ -227,7 +227,7 @@ while run:
             tree.get_random_pos()
             trees.add(tree)
         
-        if randint(0, 1) == 1:
+        if randint(0, 300) == 100:
             rand_y = randint(-500, -100)
             rand_x = randint(200, 1000)
             #rand_speed = randint(3, 5)
@@ -238,6 +238,7 @@ while run:
         player.update() #рух гравця
         enemyies.update() #ру
         trees.update()
+        pills.update()
         distance -= int(bg_speed*0.40)
         
         if distance <= 0:
@@ -257,7 +258,7 @@ while run:
 
         spritelist = sprite.spritecollide(player, pills, True, sprite.collide_mask)   
         for collide in spritelist:
-            bg_speed = bg_speed + 3
+            bg_speed = bg_speed + 10
 
     window.blit(bg, (0, bg1_y))
     window.blit(bg2, (0, bg2_y))
