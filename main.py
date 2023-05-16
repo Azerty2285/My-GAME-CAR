@@ -20,7 +20,7 @@ bg2 = transform.scale(image.load("IMAGES/background2.jpg"), (WIDTH, HEIGHT))
 
 bg1_y =0
 bg2_y =-700
-max_speed = 30
+max_speed = 15
 bg_speed = 4
 #картинки для спрайтів
 player_image = image.load("IMAGES/carplayer1234.png")
@@ -179,11 +179,11 @@ for i in range(1):
     rand_y = randint(-500, -100)
     rand_x = randint(200, 1000)
     rand_speed = randint(3, 5)
-    enemy1= Enemy(enemy1_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed)
+    enemy1= Enemy(enemy1_image , width= 100, height=200, y = rand_y, x = rand_x, speed  = 3)
     enemy1.get_random_pos()
-    enemy2= Enemy(enemy2_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed)
+    enemy2= Enemy(enemy2_image , width= 100, height=200, y = rand_y, x = rand_x, speed = 3)
     enemy2.get_random_pos()
-    enemy3= Enemy(enemy3_image , width= 100, height=200, y = rand_y, x = rand_x, speed = rand_speed)
+    enemy3= Enemy(enemy3_image , width= 100, height=200, y = rand_y, x = rand_x, speed = 3)
     enemy3.get_random_pos()
     enemyies.add(enemy1, enemy2, enemy3)    
 
@@ -223,7 +223,7 @@ while run:
             rand_y = randint(-500, -100)
             rand_x = randint(200, 1000)
             #rand_speed = randint(3, 5)
-            tree = Tree(stop_image, width=150, height = 100, y = rand_y, x = rand_x, speed = rand_speed)
+            tree = Tree(stop_image, width=150, height = 100, y = rand_y, x = rand_x, speed = 3)
             tree.get_random_pos()
             trees.add(tree)
         
@@ -231,7 +231,7 @@ while run:
             rand_y = randint(-500, -100)
             rand_x = randint(200, 1000)
             #rand_speed = randint(3, 5)
-            pill = Pill(pills_image, width=150, height = 100, y = rand_y, x = rand_x, speed = rand_speed)
+            pill = Pill(pills_image, width=150, height = 100, y = rand_y, x = rand_x, speed = 3)
             pill.get_random_pos()    
             pills.add(pill)
 
@@ -258,7 +258,7 @@ while run:
 
         spritelist = sprite.spritecollide(player, pills, True, sprite.collide_mask)   
         for collide in spritelist:
-            bg_speed = bg_speed + 10
+            bg_speed = 30
 
     window.blit(bg, (0, bg1_y))
     window.blit(bg2, (0, bg2_y))
