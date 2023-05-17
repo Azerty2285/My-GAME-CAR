@@ -57,20 +57,30 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image, self.rect)
 
 class Player(GameSprite):
+    def __init__(self, sprite_img, width, height, x, y, speed = 4):
+        super().__init__(sprite_img, width, height, x ,y, speed)
+        self.orig_image = self.image
+        self.angle = 0
     def update(self): #рух спрайту
-        global bg_speed
+        global bg_speed 
         global max_speed
         keys_pressed = key.get_pressed() 
         if keys_pressed[K_LEFT] and self.rect.x > 280:
             self.rect.x -= self.speed
-        if keys_pressed[K_RIGHT] and self.rect.right < 905:
+            if self.angle <= 16:
+                self.angle += 2
+        elif keys_pressed[K_RIGHT] and self.rect.right < 905:
             self.rect.x += self.speed
+            if self.angle >= -16:
+                self.angle -=2
+            else:
+                self.angle = 0
         if keys_pressed[K_UP] and bg_speed<max_speed:
             bg_speed = bg_speed+0.3
         #if keys_pressed[K_DOWN] and self.rect.y < HEIGHT - 70:
             #bg_speed = bg_speed-3
 
-    
+        self.image = transform.rotate(self.orig_image, self.angle)
 class Enemy(GameSprite):
     def update(self):
         if self.rect.y < HEIGHT:
