@@ -67,14 +67,14 @@ class Player(GameSprite):
         keys_pressed = key.get_pressed() 
         if keys_pressed[K_LEFT] and self.rect.x > 280:
             self.rect.x -= self.speed
-            if self.angle <= 16:
+            if self.angle <= 10:
                 self.angle += 2
         elif keys_pressed[K_RIGHT] and self.rect.right < 905:
             self.rect.x += self.speed
-            if self.angle >= -16:
+            if self.angle >= -10:
                 self.angle -=2
-            else:
-                self.angle = 0
+        else:
+            self.angle = 0
         if keys_pressed[K_UP] and bg_speed<max_speed:
             bg_speed = bg_speed+0.3
         #if keys_pressed[K_DOWN] and self.rect.y < HEIGHT - 70:
@@ -257,7 +257,7 @@ while run:
         spritelist = sprite.spritecollide(player, enemyies, False, sprite.collide_mask)   
         for collide in spritelist:
             #explosions.add(Explosion(collide.rect.x, collide.rect.y, images_list))
-            result_text.set_text("LOSE!!!")
+            result_text.set_text("LOSE!!!") 
             finish = True 
 
         spritelist = sprite.spritecollide(player, trees, False, sprite.collide_mask)   
