@@ -229,7 +229,7 @@ while run:
         if bg_speed > 7:
             bg_speed -= 0.1
 
-        if randint(0, 400) == 100:
+        if randint(0, 500) == 100:
             rand_y = randint(-500, -100)
             rand_x = randint(200, 1000)
             #rand_speed = randint(3, 5)
@@ -237,7 +237,7 @@ while run:
             tree.get_random_pos()
             trees.add(tree)
         
-        if randint(0, 300) == 100:
+        if randint(0, 600) == 100:
             rand_y = randint(-500, -100)
             rand_x = randint(200, 1000)
             #rand_speed = randint(3, 5)
