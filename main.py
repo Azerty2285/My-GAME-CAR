@@ -21,7 +21,7 @@ bg2 = transform.scale(image.load("IMAGES/background2.jpg"), (WIDTH, HEIGHT))
 bg1_y =0
 bg2_y =-700
 max_speed = 15
-bg_speed = 4
+bg_speed = 3
 #картинки для спрайтів
 player_image = image.load("IMAGES/carplayer1234.png")
 enemy1_image = image.load("IMAGES/car123.png")
@@ -215,8 +215,7 @@ while run:
                 x, y = mouse.get_pos()
                 if restart_text.rect.collidepoint(x,y):
                     finish = False
-                    distance = 0
-                    time = 30
+                    distance = 10000
                     time_text = Text("Time:", WIDTH - 150, 25, font_size = 40)
                     distance_text = Text("Distance:", WIDTH-250, 80, font_size = 40)
                     player.draw()
@@ -241,7 +240,6 @@ while run:
                         tree = Tree(stop_image, width=150, height = 100, y = rand_y, x = rand_x, speed = 3)
                         tree.get_random_pos()
                         trees.add(tree)
-        
                     if randint(0, 600) == 100:
                         rand_y = randint(-500, -100)
                         rand_x = randint(200, 1000)
