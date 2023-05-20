@@ -205,6 +205,7 @@ distance_text = Text("Distance:", WIDTH-250, 80, font_size = 40)
 restart_text = Text("Restart", 820, 570, font_size = 100, color = (0 , 255, 0))
 distance = 10000
 pills = sprite.Group()
+start_time = time.get_ticks()
 while run:
     # перевірка подій
     for e in event.get():
@@ -216,8 +217,10 @@ while run:
                 if restart_text.rect.collidepoint(x,y):
                     finish = False
                     distance = 10000
+                    start_time = time.get_ticks()
                     time_text = Text("Time:", WIDTH - 150, 25, font_size = 40)
                     distance_text = Text("Distance:", WIDTH-250, 80, font_size = 40)
+                    player = Player(player_image, width = 100, height = 200, x = 500, y = 500)
                     player.draw()
                     enemyies = sprite.Group()
                     trees = sprite.Group()
@@ -233,24 +236,11 @@ while run:
                         enemy3= Enemy(enemy3_image , width= 100, height=200, y = rand_y, x = rand_x, speed = 3)
                         enemy3.get_random_pos()
                         enemyies.add(enemy1, enemy2, enemy3) 
-                    if randint(0, 500) == 100:
-                        rand_y = randint(-500, -100)
-                        rand_x = randint(200, 1000)
-                        #rand_speed = randint(3, 5)
-                        tree = Tree(stop_image, width=150, height = 100, y = rand_y, x = rand_x, speed = 3)
-                        tree.get_random_pos()
-                        trees.add(tree)
-                    if randint(0, 600) == 100:
-                        rand_y = randint(-500, -100)
-                        rand_x = randint(200, 1000)
-                        #rand_speed = randint(3, 5)
-                        pill = Pill(pills_image, width=150, height = 100, y = rand_y, x = rand_x, speed = 3)
-                        pill.get_random_pos()    
-                        pills.add(pill)
+
     if not finish:
          # поки гра триває
         # рух спрайтів
-        now = time.get_ticks()/1000
+        now = (time.get_ticks() - start_time)/1000
         time_left = int(total_time - now)
         time_text.set_text("Time:" + str(time_left))
         distance_text.set_text("Distance: " + str(distance))
