@@ -213,6 +213,7 @@ while run:
             run = False
         if e.type == MOUSEBUTTONDOWN:
             if finish:
+                mixer_music.play()
                 x, y = mouse.get_pos()
                 if restart_text.rect.collidepoint(x,y):
                     finish = False
@@ -307,6 +308,7 @@ while run:
     enemyies.draw(window)
     distance_text.draw()  
     if finish:
+        mixer.music.stop()
         result_text.draw()
         restart_text.draw()
         
